@@ -1,10 +1,5 @@
 import './less/index.less'
-// ideas :
-// events : 
-// * [ ] `wheel`
-// * [ ] `load`
-// * [ ] `focus`
-// * [X] `drag / drop` > drag imgs to bus header = pops up alert that says img location
+
 const header = document.querySelector(".main-navigation")
 const navLinks = document.querySelectorAll("nav a");
 const headerImg = document.querySelector(".intro img");
@@ -74,12 +69,12 @@ const logoTitle = document.querySelector(".logo-heading");
 const colors = ["black", "red", "orange", "yellow", "green", "blue", "purple"]
 let lastPosition = 0;
 let trythis = "0";
-let help = trythis[0]
+let help = trythis[0];
 document.addEventListener("scroll", () => {
-    lastPosition = (window.scrollY/140).toFixed(2);
-    logoTitle.style.color = colors[help];
+    lastPosition = (window.scrollY/160).toFixed(2);
     trythis = lastPosition.toString();
     help = trythis[0]
+    logoTitle.style.color = colors[help];
 })
 
 // copy
@@ -112,17 +107,28 @@ destin.forEach(destination => {
     })
 })
 
+destin.forEach(dest => {
+    dest.addEventListener("mouseout", () => {
+        dest.style.transform = "";
+    })
+})
+
 // resize 
 // when resize the background of the page will change colors, and then stop.
-const pastelColors = ["#d9c0d3", "#a9a1fc", "#a2bcf7", "#b4f1a7", "#bd80fb", "#fd8fb6", "#e0f3f0", "#f18bcb", "#fae2bd"]
+const pastelColors = ["#a2bcf7", "#b4f1a7", "#bd80fb", "#fd8fb6", "#83ffba", "#d9b6f2", "#de8088"]
 const bodyContent = document.querySelector("*")
+let timer;
+let randomColorNum = Math.floor(Math.random() * pastelColors.length-1)
+
 window.addEventListener("resize", () => {
-    let randomColorNum = Math.floor(Math.random() * 9)
     bodyContent.style.color = pastelColors[randomColorNum];
 
-    setTimeout(() => {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
         bodyContent.style.color = "";
-    }, 1000)
+        randomColorNum = Math.floor(Math.random() * pastelColors.length-1)
+    }, 900)
+
 })
 
 //drag n drop
@@ -176,4 +182,8 @@ document.addEventListener("drop", (evt) => {
         evt.target.style.background = "";
         dragged.style.color = "purple";
     }
+
+    setTimeout(() => {
+        dragged.style.color = "";
+    }, 3000);
 })
